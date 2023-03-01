@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body>
+    <h1>Chat</h1>
+    <label for="ch"> Msg</label><input type="text" id="ch">
+    <input type="submit" onClick="send()" value="Envoyer">
+    <script>
+        const socket = io.connect();   
+        socket.on("msg",(data)=>{
+            p = document.createElement("p")
+            p.innerText = (data)
+            document.body.append(p)
+        })
+
+        function send(){
+            x= document.getElementById("ch").value
+            console.log(x)
+            socket.emit("msg",x)
+        }
+
+        y= prompt("type name")
+        console.log(y)
+        document.getElementById("ch").addEventListener('keypress', () => {
+        socket.emit('typing', y + ' is typing...');
+        });
+        socket.on("typing",(data)=>{
+                p = document.createElement("p")
+                p.innerText = (data)
+                document.body.append(p)
+        })
+        </script>
+    </body>
+</html>
